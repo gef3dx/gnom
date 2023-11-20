@@ -6,4 +6,5 @@ urlpatterns = [
     path('add/', TasksCreateView.as_view(), name='addtask'),
     path('update/<int:pk>/', TasksUpdateView.as_view(), name='updatetask'),
     path('delete/<int:pk>/', TasksDeleteView.as_view(), name='deletetask'),
+
 ]

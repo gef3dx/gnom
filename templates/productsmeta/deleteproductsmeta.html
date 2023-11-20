@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    </div>
+    <form method="post" class="card" style="padding: 15px;">
+      {% csrf_token %}
+      <h2>Удалить чек?</h2>
+      <p>Вы уверены в своих действиях?</p>
+      <p class="form-buttons">
+        <input type="submit" class="btn btn-danger" value="Удалить">
+        <a href="{% url 'home'%}" class="btn btn-outline">Отмена</a>
+      </p>
+    </form>
+</main>
+    
+{% endblock %}

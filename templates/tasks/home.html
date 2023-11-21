@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    {% if messages %}
+
+
+         {{ message }}
+
+
+    {% endif %}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <h1 class="h2">Все объекты</h1>
+      {% if request.user.is_staff %}
+        <a class="btn btn-primary btn-sm" href="{% url 'addcomplect' %}">Добавить объект</a>
+      {% endif %}
+    </div>
+    <div class="table-responsive">
+      <table class="table table-sm table-hover ">
+        <thead>
+          <tr>
+              <th>Наименование:</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for object in objects %}
+                <tr>
+                    <td><a href="#">{{object.name}}</a></td>
+                </tr>
+            {% endfor %}
+
+        </tbody>
+      </table>
+    </div>
+  </main>
+{% endblock %}
+
+

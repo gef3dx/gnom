@@ -4,12 +4,12 @@
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3">
       <h1 class="h2">Услуги {{product_name}}</h1>
-      {% if request.user.is_client == False %}
+      {% if request.user.role != "Клиент" %}
       <a class="btn btn-primary btn-sm" href="{% url 'addsevice' product_id=product_id %}">Добавить услугу</a>
       {% endif %}
     </div>
     <div class="d-flex flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    {% if request.user.is_client == False %}
+    {% if request.user.role != "Клиент" %}
       <a style="margin-right: 10px; margin-top: 5px;" class="btn btn-dark btn-sm" href="/sevice/{{product_slug}}">Все</a>
       <a style="margin-right: 10px; margin-top: 5px;" class="btn btn-dark btn-sm" href="/sevice/{{product_slug}}/Оплатил/">Оплаченные</a>
       <a style="margin-right: 10px; margin-top: 5px;" class="btn btn-dark btn-sm" href="/sevice/{{product_slug}}/Не оплатил/">Не оплаченные</a>
@@ -29,7 +29,7 @@
             <th scope="col-1">Цена за ед. изм.:</th>
             <th scope="col-1">Цена за все:</th>
             <th scope="col-1">Сумма наценки:</th>
-            {% if request.user.is_client == False %}
+            {% if request.user.role != "Клиент" %}
             <th scope="col-1">Статус оплаты:</th>
             {% endif %}
             <th scope="col-1"></th>

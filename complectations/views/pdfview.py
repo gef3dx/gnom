@@ -39,7 +39,7 @@ class ReceiptsViewPdf(LoginRequiredMixin, ListView):
         return context
     
     def get(self, request, *args, **kwargs):
-        if self.request.user.is_staff or self.request.user.is_client:
+        if self.request.user.is_staff or self.request.user.role == "Клиент":
             self.object = None
             self.object_list = self.get_queryset()
             context = self.get_context_data()
@@ -84,7 +84,7 @@ class ServiceViewPdf(LoginRequiredMixin, ListView):
         return context
     
     def get(self, request, *args, **kwargs):
-        if self.request.user.is_staff or self.request.user.is_client:
+        if self.request.user.is_staff or self.request.user.role == "Клиент":
             self.object = None
             self.object_list = self.get_queryset()
             context = self.get_context_data()
@@ -127,7 +127,7 @@ class ProductSmetaPDFView(LoginRequiredMixin, ListView):
         return context
     
     def get(self, request, *args, **kwargs):
-        if self.request.user.is_staff or self.request.user.is_client:
+        if self.request.user.is_staff or self.request.user.role == "Клиент":
             self.object = None
             self.object_list = self.get_queryset()
             context = self.get_context_data()
@@ -170,7 +170,7 @@ class ProductCompletPdfView(LoginRequiredMixin, ListView):
         return context
     
     def get(self, request, *args, **kwargs):
-        if self.request.user.is_staff or self.request.user.is_client:
+        if self.request.user.is_staff or self.request.user.role == "Клиент":
             self.object = None
             self.object_list = self.get_queryset()
             context = self.get_context_data()
@@ -217,7 +217,7 @@ class ProductCompletGroupPdfView(LoginRequiredMixin, ListView):
         return context
     
     def get(self, request, *args, **kwargs):
-        if self.request.user.is_staff or self.request.user.is_client:
+        if self.request.user.is_staff or self.request.user.role == "Клиент":
             self.object = None
             self.object_list = self.get_queryset()
             context = self.get_context_data()

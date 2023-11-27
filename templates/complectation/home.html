@@ -3,11 +3,7 @@
 {% block content %}
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
     {% if messages %}
-
-
          {{ message }}
-
-
     {% endif %}
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
       <h1 class="h2">Все комплектации</h1>
@@ -20,14 +16,14 @@
         <thead>
           <tr>
               <th scope="col-2">Наименование:</th>
-            {% if request.user.is_staff or request.user.is_client %}
+            {% if request.user.is_staff or request.user.role == "Клиент" %}
               <th scope="col-1">Приход:</th>
               <th scope="col-1">Закупки:</th>
               <th scope="col-1">Услуги:</th>
               <th scope="col-1">Баланс средств:</th>
               <th scope="col-1">Процент:</th>
             {% endif %}
-            {% if request.user.is_staff == False and request.user.is_client == False %}
+            {% if not request.user.is_staff  and request.user.role == "Дизайнер" %}
               <th scope="col-1">Адрес:</th>
               <th scope="col-1">Телефон:</th>
             {% endif %}
@@ -41,7 +37,7 @@
             {% for complectation in complectations %}
                 <tr>
                     <td><a href="{% url 'productfromcomplet' complectation.slug %}">Комплектация {{complectation.name}}</a></td>
-                     {% if request.user.is_staff or request.user.is_client %}
+                     {% if request.user.is_staff or request.user.role == "Клиент" %}
                       <td><a href="{% url 'listreceipts' complectation.slug %}">Приход {{complectation.name}}</a></td>
                       <td><a href="{% url 'productsmetafromcomplet' complectation.slug %}">Закупки {{complectation.name}}</a></td>
                       <td><a href="{% url 'listsevice' complectation.slug %}">Услуги {{complectation.name}}</a></td>
@@ -73,16 +69,15 @@
                             padding: 3px 5px;
                             border-radius: 6px;">{{complectation.procent}} ₽</span></td>
                       {% endif %}
-                      {% if request.user.is_staff == False and request.user.is_client == False %}
-                    <td>{{complectation.adress}}</td>
-                    <td>{{complectation.phone}}</td>
+                      {% if not request.user.is_staff and request.user.role == "Дизайнер" %}
+                        <td>{{complectation.adress}}</td>
+                        <td>{{complectation.phone}}</td>
                      {% endif %}
                     {% if request.user.is_staff %}
                         <td><a class="btn btn-primary btn-sm" href="{% url 'updatecomplect' complectation.slug %}"><i class="bi bi-pencil-square"></i></a></td>
                         <td><a class="btn btn-danger btn-sm" href="{% url 'deletecomplect' complectation.slug %}"><i class="bi bi-trash"></i></a></td>
                     {% endif %}
                 </tr>
-                
             {% endfor %}
             
         </tbody>
@@ -171,8 +166,7 @@
         </div>
     </div>
     {% endif %}
-    
-    
+
   </main>
 {% endblock %}
 

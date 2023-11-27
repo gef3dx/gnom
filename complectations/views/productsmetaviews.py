@@ -30,7 +30,7 @@ class ReceiptsViewListFromComplet(LoginRequiredMixin, ListView):
         return context
     
     def get(self, request, *args, **kwargs):
-        if self.request.user.is_staff or self.request.user.is_client:
+        if self.request.user.is_staff or self.request.user.role == "Клиент":
             self.object = None
             return super().get(request, *args, **kwargs)
         else:
@@ -52,7 +52,7 @@ class ReceiptsAddView(LoginRequiredMixin, CreateView):
     def form_valid(self, form, **kwargs):
         obj = form.save(commit=False)
         obj.author = self.request.user
-        comp =  Complectation.objects.filter(id = self.kwargs['product_id'])
+        comp = Complectation.objects.filter(id = self.kwargs['product_id'])
         self.url = comp[0].slug
         obj.complectation = comp[0]
         return super(ReceiptsAddView, self).form_valid(form)
@@ -180,7 +180,7 @@ class ServiceSmetaViewListFromComplet(LoginRequiredMixin, ListView):
         return context
     
     def get(self, request, *args, **kwargs):
-        if self.request.user.is_staff or self.request.user.is_client:
+        if self.request.user.is_staff or self.request.user.role == "Клиент":
             self.object = None
             return super().get(request, *args, **kwargs)
         else:
@@ -333,7 +333,7 @@ class ProductSmetaViewListFromComplet(LoginRequiredMixin, ListView):
         return context
     
     def get(self, request, *args, **kwargs):
-        if self.request.user.is_staff or self.request.user.is_client:
+        if self.request.user.is_staff or self.request.user.role == "Клиент":
             self.object = None
             return super().get(request, *args, **kwargs)
         else:

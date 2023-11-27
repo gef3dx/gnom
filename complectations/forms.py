@@ -15,7 +15,6 @@ from django.utils.translation import gettext_lazy as _
 
 User = get_user_model()
 
-
 class UserCreationForm(UserCreationForm):
     email = forms.EmailField(
         label=_("Email"),
@@ -25,7 +24,7 @@ class UserCreationForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ("email", "phone", "first_name", "last_name", "is_staff", "is_client", "is_worker")
+        fields = ("email", "phone", "first_name", "last_name", "role", "is_staff")
         
         
 class UserUpdateForm(UserChangeForm):
@@ -37,7 +36,7 @@ class UserUpdateForm(UserChangeForm):
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ("email", "phone", "first_name", "last_name", "is_staff", "is_client", "is_worker")
+        fields = ("email", "phone", "first_name", "last_name", "role", "is_staff")
 
 
 class ComplectationForm(forms.ModelForm):

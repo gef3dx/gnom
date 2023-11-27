@@ -4,31 +4,30 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from tasks.models import Tasks
 from tasks.forms import TaskForm
 from complectations.models import Complectation
-from users.models import CustomUser
 
 
-class UserListView(LoginRequiredMixin, ListView):
-    """Выводит всех прорабов"""
+class ObjectListView(LoginRequiredMixin, ListView):
+    """Выводит все строительные объекты"""
     template_name = 'tasks/home.html'
-    model = CustomUser
-    context_object_name = 'users'
-    paginate_by = 30
-    queryset = CustomUser.objects.filter(is_worker=True)
-
-
-class ObjectFromUserListView(LoginRequiredMixin, ListView):
-    """Выводит объекты прораба"""
-    template_name = 'tasks/objfromuser.html'
     model = Complectation
     context_object_name = 'objects'
     paginate_by = 30
+    queryset = Complectation.objects.all()
+
+
+class ObjectUsersListView(LoginRequiredMixin, ListView):
+    """Выводит всех закрепленных сотрудников за объектом"""
+    template_name = 'tasks/objfromuser.html'
+    model = Complectation
+    context_object_name = 'users'
+    paginate_by = 30
 
     def get_queryset(self, **kwargs):
-        user_id = self.kwargs['user_id']
-        return Complectation.objects.filter(prorab__id=user_id)
+        object_id = self.kwargs['object_id']
+        return Complectation.objects.get(id=object_id).users.filter(role="Сотрудник")
 
 
-class TaskForObjectAndUser(LoginRequiredMixin, ListView):
+class TaskUserListView(LoginRequiredMixin, ListView):
     """Выводит все задачи прораба по выбранному объекту"""
     template_name = 'tasks/tasks.html'
     model = Tasks
@@ -36,9 +35,10 @@ class TaskForObjectAndUser(LoginRequiredMixin, ListView):
     paginate_by = 30
 
     def get_queryset(self, **kwargs):
-        user_id = self.kwargs['user_id']
+        print(self.request)
         object_id = self.kwargs['object_id']
-        return Tasks.objects.filter(user__id=user_id, complectation__id=object_id)
+        user_id = self.kwargs['user_id']
+        return Tasks.objects.filter(complectation__id=object_id, user__id=user_id)
 
 
 class TasksCreateView(LoginRequiredMixin, CreateView):

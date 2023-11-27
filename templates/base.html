@@ -97,7 +97,7 @@
             <a class="nav-link active" aria-current="page" href="{% url 'home'%}">
               Комплектации
             </a>
-            {% if request.user.is_client == False %}
+            {% if request.user.role != "Клиент" %}
             <a class="nav-link active" aria-current="page" href="{% url 'listgrop' %}">
                   Группы в комлектациях
             </a>
@@ -111,6 +111,9 @@
                 </a>
                 <a class="nav-link active" aria-current="page" href="{% url 'hometask'%}">
                   Задачи
+                </a>
+                <a class="nav-link active" aria-current="page" href="{% url 'addtask'%}">
+                  Добавить задачу
                 </a>
             {% endif %}
             <a class="nav-link active" aria-current="page" href="{% url 'logout'%}">

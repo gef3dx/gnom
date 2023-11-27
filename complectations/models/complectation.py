@@ -11,8 +11,6 @@ class Complectation(models.Model):
                             help_text="**Можно использовать только латинские буквы")
     date_create = models.DateField(verbose_name="Дата создания коплектации", auto_now=True)
     users = models.ManyToManyField(CustomUser, verbose_name="Доступ пользователей к комплектации")
-    prorab = models.ForeignKey(CustomUser, verbose_name="Прораб", on_delete=models.PROTECT, related_name="prorab",
-                               null=True)
     balance = models.IntegerField(verbose_name="Баланс", default=0)
     procent = models.IntegerField(verbose_name="Процент", default=0)
 

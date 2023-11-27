@@ -28,15 +28,18 @@ class UserManager(BaseUserManager):
 
 
 class CustomUser(AbstractUser):
+    ROLE_CHOICES = [
+        ("Дизайнер", "Дизайнер"),
+        ("Сотрудник", "Сотрудник"),
+        ("Клиент", "Клиент"),
+    ]
 
     objects = UserManager()
 
     email = models.EmailField(verbose_name="Электронная почта", unique=True)
     phone = models.CharField(verbose_name="Телефон", max_length=15, unique=True)
-    is_client = models.BooleanField(verbose_name="Клиент", default=False, help_text="Отметьте, если пользователь \
-                                                                                        является клиентом.")
-    is_worker = models.BooleanField(verbose_name="Сотрудник", default=False, help_text="Отметьте, если пользователь \
-                                                                                            является сотрудником.")
+    role = models.CharField(verbose_name="Роль пользователя", max_length=15, default="Клиент", choices=ROLE_CHOICES,
+                            help_text="Выберите роль пользователю для работы с строительными объектами")
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']

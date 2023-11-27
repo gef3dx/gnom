@@ -4,15 +4,15 @@ from users.models import CustomUser
 
 
 class TaskForm(forms.ModelForm):
-    user = forms.ChoiceField(choices=[])
+    user = forms.ChoiceField(choices=[], label="Сотрудник")
 
     def __init__(self, *args, **kwargs):
         super(TaskForm, self).__init__(*args, **kwargs)
         self.fields['user'].choices = self.get_staff_users()
 
     def get_staff_users(self):
-        staff_users = CustomUser.objects.filter(is_worker=True)
-        user_choices = [(user.id, user.username) for user in staff_users]
+        staff_users = CustomUser.objects.filter(role="Сотрудник")
+        user_choices = [(user.id, user.last_name) for user in staff_users]
         return user_choices
 
     class Meta:

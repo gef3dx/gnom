@@ -22,15 +22,38 @@
               <th>Имя задачи:</th>
               <th>Сроки:</th>
               <th>Статус:</th>
+              {% if request.user.is_staff %}
+                  <th></th>
+                  <th></th>
+              {% endif %}
           </tr>
         </thead>
         <tbody>
             {% for task in tasks %}
                     <tr>
-                        <td><a href="#">{{task.title}}</a></td>
+                        <td><a href="{% url 'singletask' task.id %}">{{task.title}}</a></td>
                         <td>{{task.date}}</td>
-                        <td>{{task.status}}</td>
+                        <td><span style = "
+                          {% if task.status == "В ходе выполнения" %}
+                            background-color: yellow;
+                            color: black;
+                            font-weight: bold;
+                            padding: 3px 5px;
+                            border-radius: 6px;
+                          {% else %}
+                            background-color: green;
+                            color: white;
+                            font-weight: bold;
+                            padding: 3px 5px;
+                            border-radius: 6px;
+                          {% endif %}
+                      ">{{task.status}}</span></td>
+                        {% if request.user.is_staff %}
+                        <td><a class="btn btn-primary btn-sm" href="{% url 'updatetask' task.id %}"><i class="bi bi-pencil-square"></i></a></td>
+                        <td><a class="btn btn-danger btn-sm" href="{% url 'deletetask' task.id %}"><i class="bi bi-trash"></i></a></td>
+                        {% endif %}
                     </tr>
+
             {% endfor %}
         </tbody>
       </table>

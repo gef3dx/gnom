@@ -24,9 +24,40 @@
         <tbody>
             {% for object in objects %}
                     <tr>
-                        <td><a href="{% url 'objuser' object.id  %}">{{object.name}}</a></td>
-                        <td><a href="{% url 'objuser' object.id  %}">{{object.adress}}</a></td>
-                        <td><a href="{% url 'objuser' object.id  %}">{{object.phone}}</a></td>
+                        <td>
+                            <a href="
+                            {% if request.user.role == "Сотрудник" %}
+                                {% url 'tasks' object.id request.user.id %}
+                            {% else %}
+                                {% url 'objuser' object.id  %}
+                            {% endif %}
+                            ">
+
+                                {{object.name}}
+                            </a>
+                        </td>
+                        <td>
+                            <a href="
+                            {% if request.user.role == "Сотрудник" %}
+                                {% url 'tasks' object.id request.user.id %}
+                            {% else %}
+                                {% url 'objuser' object.id  %}
+                            {% endif %}
+                            ">
+                                {{object.adress}}
+                            </a>
+                        </td>
+                        <td>
+                            <a href="
+                            {% if request.user.role == "Сотрудник" %}
+                                {% url 'tasks' object.id request.user.id %}
+                            {% else %}
+                                {% url 'objuser' object.id  %}
+                            {% endif %}
+                            ">
+                                {{object.phone}}
+                            </a>
+                        </td>
                     </tr>
             {% endfor %}
         </tbody>

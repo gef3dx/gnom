@@ -23,7 +23,7 @@
         <tbody>
             {% for user in users %}
                     <tr>
-                        <td><a href="user/{{user.id}}">{{user.last_name}} {{user.first_name}} {{user.email}}</a></td>
+                        <td><a style="text-decoration: none" href="user/{{user.id}}">{{user.last_name}} {{user.first_name}} {{user.email}}</a></td>
                         <td>{{user.phone}}</td>
                     </tr>
             {% endfor %}

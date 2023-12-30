@@ -4,7 +4,7 @@
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2">
       <h1 class="h2">Продукты комлектаций {{product_name}}</h1>
-      {% if request.user.role == "Дизайнер" %}
+      {% if request.user.is_staff or request.user.role == "Сотрудник" %}
         <a class="btn btn-primary btn-sm" href="{% url 'addproduct' product_id=product_id %}">Добавить продукт</a>
       {% endif %} 
     </div>

@@ -10,7 +10,6 @@ from ..forms import UserCreationForm, UserUpdateForm
 class UserViewList(LoginRequiredMixin, ListView):
     template_name = 'user/userlist.html'
     model = CustomUser
-    paginate_by = 15
     context_object_name = 'users'
     
     def get(self, request, *args, **kwargs):

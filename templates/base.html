@@ -82,49 +82,65 @@
 <div class="container-fluid">
   <div class="row">
     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-      <div class="position-sticky pt-3 sidebar-sticky">
         <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{% url 'updateuser' user.pk %}">
-              {{user.get_username}}
-            </a>
-            {% if request.user.role != "Сотрудник" %}
-                <a class="nav-link active" aria-current="page" href="{% url 'home'%}">
-                  Комплектации
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url 'updateuser' user.pk %}">
+                    {{user.get_username}}
                 </a>
-            {% endif %}
-            {% if request.user.role != "Клиент" and request.user.role != "Сотрудник" %}
-                <a class="nav-link active" aria-current="page" href="{% url 'listgrop' %}">
-                    Группы в комлектациях
-                </a>
-            {% endif %}
-
-            {% if request.user.is_staff %}
-                <a class="nav-link active" aria-current="page" href="{% url 'listprovider' %}">
-                  Поставщики
-                </a>
+                {% if request.user.role != "Сотрудник" %}
+                    <a class="nav-link active" aria-current="page" href="{% url 'home'%}">
+                        Комплектации
+                    </a>
                 {% endif %}
-          {% if request.user.is_staff %}
-                <a class="nav-link active" aria-current="page" href="{% url 'users'%}">
-                  Пользователи
+                {% if request.user.role != "Клиент" and request.user.role != "Сотрудник" %}
+                    <a class="nav-link active" aria-current="page" href="{% url 'listgrop' %}">
+                        Группы в комлектациях
+                    </a>
+                {% endif %}
+
+                {% if request.user.is_staff %}
+                    <a class="nav-link active" aria-current="page" href="{% url 'listprovider' %}">
+                        Поставщики
+                    </a>
+                {% endif %}
+                {% if request.user.is_staff %}
+                    <a class="nav-link active" aria-current="page" href="{% url 'users'%}">
+                        Пользователи
+                    </a>
+                {% endif %}
+                {% if request.user.role == "Сотрудник" or request.user.role == "Дизайнер" or request.user.is_staff  %}
+                    <a class="nav-link active" aria-current="page" href="{% url 'hometask'%}">
+                        Задачи
+                    </a>
+                {% endif %}
+                <a class="nav-link active" aria-current="page" href="{% url 'logout'%}">
+                    Выход
                 </a>
-              {% endif %}
-          {% if request.user.role == "Сотрудник" or request.user.role == "Дизайнер" or request.user.is_staff  %}
-                <a class="nav-link active" aria-current="page" href="{% url 'hometask'%}">
-                  Задачи
-                </a>
-          {% endif %}
-          {% if request.user.is_staff %}
-                <a class="nav-link active" aria-current="page" href="{% url 'addtask'%}">
-                  Добавить задачу
-                </a>
-            {% endif %}
-            <a class="nav-link active" aria-current="page" href="{% url 'logout'%}">
-              Выход
-            </a>
-          </li>
-      </div>
+            </li>
     </nav>
+
+    {% if message.tags == 'info' %}
+        <div class="alert alert-info" role="alert">
+          {{ message }}
+        </div>
+    {% endif %}
+    {% if message.tags == 'success' %}
+        <div class="alert alert-success" role="alert">
+          {{ message }}
+        </div>
+    {% endif %}
+    {% if message.tags == 'warning' %}
+        <div class="alert alert-warning" role="alert">
+          {{ message }}
+        </div>
+    {% endif %}
+    {% if message.tags == 'error' %}
+        <div class="alert alert-error" role="alert">
+          {{ message }}
+        </div>
+    {% endif %}
+
+
     {% block content %}
 
     {% endblock %}

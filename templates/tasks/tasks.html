@@ -12,7 +12,7 @@
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
       <h1 class="h2">Задачи</h1>
         {% if request.user.is_staff %}
-            <a class="btn btn-primary btn-sm" href="{% url 'addtask' %}">Добавить задачу</a>
+            <a class="btn btn-primary btn-sm" href="{% url 'addtask' object_id user_id %}">Добавить задачу</a>
         {% endif %}
     </div>
     <div class="table-responsive">
@@ -31,8 +31,23 @@
         <tbody>
             {% for task in tasks %}
                     <tr>
-                        <td><a href="{% url 'singletask' task.id %}">{{task.title}}</a></td>
-                        <td>{{task.date}}</td>
+                        <td><a href="{% url 'singletask' task.id %}">
+                            {{task.title}}
+                        </a>{% if task.explanations != None %}
+                                📢
+                            {% endif %}
+                        </td>
+                        <td><span style = "
+                                {% if task.status == "В ходе выполнения" %}
+                                    {% if task.date <= date_now%}
+                                        background-color: red;
+                                        color: white;
+                                        font-weight: bold;
+                                        padding: 3px 5px;
+                                        border-radius: 6px;
+                                      {% endif %}
+                                {% endif %}
+                      ">{{task.date}}</span></td>
                         <td><span style = "
                           {% if task.status == "В ходе выполнения" %}
                             background-color: yellow;

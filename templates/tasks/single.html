@@ -7,9 +7,6 @@
     {% endif %}
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
       <h1 class="h2">{{ task.title }}</h1>
-        {% if request.user.is_staff %}
-            <a class="btn btn-primary btn-sm" href="{% url 'addtask' %}">Добавить задачу</a>
-        {% endif %}
     </div>
     <div class="container">
         <div class="row">
@@ -20,8 +17,11 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        <a class="btn btn-primary btn-sm" href="">Оставить примечание</a>
-                        <a class="btn btn-success btn-sm" href="">Выполнено</a>
+                            <form method="POST">
+                                {% csrf_token %}
+                                 <a class="btn btn-primary btn-sm" href="{% url 'explanationstask' task.id %}">Оставить примечание</a>
+                                <button class="btn btn-success btn-sm">Выполнено</button>
+                            </form>
                     </div>
                 </div>
             </div>

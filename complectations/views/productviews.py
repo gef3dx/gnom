@@ -69,11 +69,9 @@ class ProductViewListFromCompletAndGroup(LoginRequiredMixin, ListView):
             context['grouppdfslug'] = context['products'][0].group.slug
         else:
             context['grouppdf'] = ""
-        
-
-
 
         return context
+
 
 class ProductUpdate(LoginRequiredMixin, UpdateView):
     template_name = "product/updateproduct.html"
@@ -91,6 +89,7 @@ class ProductUpdate(LoginRequiredMixin, UpdateView):
         slug = get_object_or_404(Product, id = self.kwargs['pk'])
         return reverse('productfromcomplet', kwargs={'slug': slug.complectation.slug})
 
+
 class ProductDelete(LoginRequiredMixin, DeleteView):
     model = Product
     template_name = "product/deleteproduct.html"
@@ -105,6 +104,7 @@ class ProductDetaleView(LoginRequiredMixin, DetailView):
     template_name = 'product/productdetale.html'
     context_object_name = 'product'
 
+
 class ProductAdd(LoginRequiredMixin, CreateView):
     template_name = "product/addproduct.html"
     model = Product
@@ -114,7 +114,7 @@ class ProductAdd(LoginRequiredMixin, CreateView):
     def form_valid(self, form, **kwargs):
         obj = form.save(commit=False)
         obj.author = self.request.user
-        comp =  Complectation.objects.filter(id = self.kwargs['product_id'])
+        comp = Complectation.objects.filter(id = self.kwargs['product_id'])
         self.url = comp[0].slug
         obj.complectation = comp[0]
         obj.sum_price_count = obj.count * obj.price
@@ -131,16 +131,19 @@ class GroupProductAddView(LoginRequiredMixin, CreateView):
     form_class = GroupProductForm
     success_url = "/group"
 
+
 class GroupProductListView(LoginRequiredMixin, ListView):
     template_name = 'product/groupproductlist.html'
     model = GroupProduct
     context_object_name = 'grops'
+
 
 class GroupProductUpdateView(LoginRequiredMixin, UpdateView):
     template_name = "product/groupproductupdate.html"
     model = GroupProduct
     form_class = GroupProductForm
     success_url = "/group"
+
 
 class GroupProductDeleteView(LoginRequiredMixin, DeleteView):
     model = GroupProduct

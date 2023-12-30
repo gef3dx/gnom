@@ -4,8 +4,11 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 from tasks.models import Tasks
 from tasks.forms import TaskForm, TaskExplanationsForm
+from django.shortcuts import redirect, get_object_or_404
+from django.contrib import messages
 from complectations.models import Complectation
-from django.shortcuts import redirect
+from users.models import CustomUser
+import datetime
 
 
 class ObjectListView(LoginRequiredMixin, ListView):
@@ -13,7 +16,6 @@ class ObjectListView(LoginRequiredMixin, ListView):
     template_name = 'tasks/home.html'
     model = Complectation
     context_object_name = 'objects'
-    paginate_by = 30
     queryset = Complectation.objects.all()
 
     def get_queryset(self):
@@ -25,9 +27,23 @@ class ObjectListView(LoginRequiredMixin, ListView):
 
 
 class SingleTaskView(LoginRequiredMixin, DetailView):
+    """Выводит заду и при нажатии на кнопку выполнить меняет статус задачи"""
     model = Tasks
     template_name = 'tasks/single.html'
     context_object_name = 'task'
+
+    def post(self, request, *args, **kwargs):
+        model_id = kwargs['pk']
+        model_instance = get_object_or_404(Tasks, pk=model_id)
+        # Обработка POST запроса
+        model_instance.status = 'Выполнил'
+        model_instance.save()
+        # Добавление сообщения
+        messages.success(request, 'Задача выполнена успешно.')
+        # Перенаправление на страницу с подробностями объекта
+        return redirect('home')
+
+
 
 
 class ExplanationsUpdateView(LoginRequiredMixin, UpdateView):
@@ -36,6 +52,10 @@ class ExplanationsUpdateView(LoginRequiredMixin, UpdateView):
     form_class = TaskExplanationsForm
     success_url = "/"
 
+
+class CompletedTaskView(LoginRequiredMixin,UpdateView):
+    model = Tasks
+    template_name = "Completed"
 
 class ObjectUsersListView(LoginRequiredMixin, ListView):
     """Выводит всех закрепленных сотрудников за объектом"""
@@ -81,6 +101,14 @@ class TaskUserListView(LoginRequiredMixin, ListView):
             user_id = self.request.user.id
             return Tasks.objects.filter(complectation__id=object_id, user__id=user_id, status="В ходе выполнения")
 
+    def get_context_data(self, **kwargs):
+        context = super(TaskUserListView, self).get_context_data(**kwargs)
+        context['object_id'] = self.kwargs['object_id']
+        context['user_id'] = self.kwargs['user_id']
+        context['date_now'] = datetime.date.today()
+        context['date_plus'] = datetime.date.today() + datetime.timedelta(days=7)
+        return context
+
 
 class TasksCreateView(LoginRequiredMixin, CreateView):
     """Создает задачу прорабу по объекту"""
@@ -88,6 +116,14 @@ class TasksCreateView(LoginRequiredMixin, CreateView):
     model = Tasks
     form_class = TaskForm
     success_url = "/tasks"
+
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        complectation = Complectation.objects.get(pk=self.kwargs['object_id'])
+        obj.complectation = complectation
+        user = CustomUser.objects.get(pk=self.kwargs['user_id'])
+        obj.user = user
+        return super(TasksCreateView, self).form_valid(form)
 
     def get(self, request, *args, **kwargs):
         if self.request.user.is_staff:

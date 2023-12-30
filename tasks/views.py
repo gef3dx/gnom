@@ -41,21 +41,15 @@ class SingleTaskView(LoginRequiredMixin, DetailView):
         # Добавление сообщения
         messages.success(request, 'Задача выполнена успешно.')
         # Перенаправление на страницу с подробностями объекта
-        return redirect('home')
-
-
+        return redirect('hometask')
 
 
 class ExplanationsUpdateView(LoginRequiredMixin, UpdateView):
     model = Tasks
     template_name = 'tasks/update.html'
     form_class = TaskExplanationsForm
-    success_url = "/"
+    success_url = "/tasks/"
 
-
-class CompletedTaskView(LoginRequiredMixin,UpdateView):
-    model = Tasks
-    template_name = "Completed"
 
 class ObjectUsersListView(LoginRequiredMixin, ListView):
     """Выводит всех закрепленных сотрудников за объектом"""

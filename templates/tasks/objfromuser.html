@@ -16,17 +16,15 @@
       <table class="table table-sm table-hover ">
         <thead>
           <tr>
-              <th>Имя:</th>
-              <th>Фамилия:</th>
+              <th>Сотрудник:</th>
               <th>Телефон:</th>
           </tr>
         </thead>
         <tbody>
             {% for user in users %}
                     <tr>
-                        <td><a href="user/{{user.id}}">{{user.last_name}}</a></td>
-                        <td><a href="user/{{user.id}}">{{user.first_name}}</a></td>
-                        <td><a href="user/{{user.id}}">{{user.phone}}</a></td>
+                        <td><a href="user/{{user.id}}">{{user.last_name}} {{user.first_name}} {{user.email}}</a></td>
+                        <td>{{user.phone}}</td>
                     </tr>
             {% endfor %}
         </tbody>

@@ -23,7 +23,7 @@
               <th scope="col-1">Баланс средств:</th>
               <th scope="col-1">Процент:</th>
             {% endif %}
-            {% if not request.user.is_staff  and request.user.role == "Дизайнер" %}
+            {% if not request.user.is_staff and request.user.role == "Сотрудник" %}
               <th scope="col-1">Адрес:</th>
               <th scope="col-1">Телефон:</th>
             {% endif %}
@@ -69,7 +69,7 @@
                             padding: 3px 5px;
                             border-radius: 6px;">{{complectation.procent}} ₽</span></td>
                       {% endif %}
-                      {% if not request.user.is_staff and request.user.role == "Дизайнер" %}
+                      {% if not request.user.is_staff and request.user.role == "Сотрудник" %}
                         <td>{{complectation.adress}}</td>
                         <td>{{complectation.phone}}</td>
                      {% endif %}

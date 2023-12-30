@@ -17,18 +17,6 @@ class ComplectationsViewList(LoginRequiredMixin, ListView):
     proc = 0
     plus_bal = 0
 
-    def get(self, request, *args, **kwargs):
-        if self.request.user.role == "Сотрудник":
-            return redirect('hometask')
-        else:
-            return super().get(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        if self.request.user.role == "Сотрудник":
-            return redirect('hometask')
-        else:
-            return super().get(request, *args, **kwargs)
-
     def get_queryset(self, **kwargs):
         if self.request.user.is_staff:
             queryset = Complectation.objects.all()

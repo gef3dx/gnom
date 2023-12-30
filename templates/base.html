@@ -84,15 +84,16 @@
     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
         <ul class="nav flex-column">
             <li class="nav-item">
+            <br>
                 <a class="nav-link active" aria-current="page" href="{% url 'updateuser' user.pk %}">
                     {{user.get_username}}
                 </a>
-                {% if request.user.role != "Сотрудник" %}
+                {% if request.user.is_staff or request.user.role == "Сотрудник" %}
                     <a class="nav-link active" aria-current="page" href="{% url 'home'%}">
                         Комплектации
                     </a>
                 {% endif %}
-                {% if request.user.role != "Клиент" and request.user.role != "Сотрудник" %}
+                {% if request.user.is_staff or request.user.role == "Сотрудник" %}
                     <a class="nav-link active" aria-current="page" href="{% url 'listgrop' %}">
                         Группы в комлектациях
                     </a>
@@ -108,7 +109,7 @@
                         Пользователи
                     </a>
                 {% endif %}
-                {% if request.user.role == "Сотрудник" or request.user.role == "Дизайнер" or request.user.is_staff  %}
+                {% if request.user.role == "Сотрудник" or  request.user.is_staff  %}
                     <a class="nav-link active" aria-current="page" href="{% url 'hometask'%}">
                         Задачи
                     </a>

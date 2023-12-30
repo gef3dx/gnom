@@ -29,7 +29,6 @@ class UserManager(BaseUserManager):
 
 class CustomUser(AbstractUser):
     ROLE_CHOICES = [
-        ("Дизайнер", "Дизайнер"),
         ("Сотрудник", "Сотрудник"),
         ("Клиент", "Клиент"),
     ]
